@@ -13,9 +13,13 @@ public class Ingredient {
     private String description;
     private BigDecimal amount;
 
+    @OneToOne(fetch = FetchType.EAGER)
+    private UnitofMeasurement unitofMeasurement;
+
 // This defines the inverse relation, we are using the ManyToOne annotation to say that it goes back to a
-//recipe and we are not using any cascade there because we don't want to have any
-//type of delete operation cascade back to the parent object which is recipe.
+//recipe and we are not using any cascade there because we don't want to have any type of delete operation
+//  cascade back to the parent object which is recipe. This is a bi-directional relationship,which means
+// you can access ingredients from recipe and  recipe from ingredients.
     @ManyToOne
     private Recipe recipe;
 
@@ -51,7 +55,13 @@ public class Ingredient {
         this.recipe = recipe;
     }
 
+    public UnitofMeasurement getUnitofMeasurement() {
+        return unitofMeasurement;
+    }
 
+    public void setUnitofMeasurement(UnitofMeasurement unitofMeasurement) {
+        this.unitofMeasurement = unitofMeasurement;
+    }
 
 
 

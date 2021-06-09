@@ -5,14 +5,6 @@ import java.util.Set;
 
 @Entity
 public class Recipe {
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,16 +20,30 @@ public class Recipe {
     private Byte [] image;
 
 
+
     //
     // So this defines the relationship from Recipe class to ingredient, and with mappedby we're saying
     // that this Recipe will get stored on a property on the child or the set of ingredients on each
     // object of Ingredient is going to be a property called recipe.
+    //The mappedBy property is what we use to tell Hibernate which variable we are using to represent
+    // the parent class in our child class. The name is decided
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
     private Set<Ingredient> ingredients;
 
     @OneToOne(cascade = CascadeType.ALL)
     // Cascade is set since Recipe is the owner
     private Notes notes;
+
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 
 
     public String getDescription() {
