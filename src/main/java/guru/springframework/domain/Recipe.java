@@ -18,11 +18,12 @@ public class Recipe {
     private String directions;
     @Lob
     private Byte [] image;
-
-
-
-    //
-    // So this defines the relationship from Recipe class to ingredient, and with mappedby we're saying
+    //Using ordinal has the problem that whenever you change the Difficulty, lets say add intermediate b
+    // between hard and Moderate, the value of hard will become 4 instead of 3, not what you want most
+    // of the time.
+    @Enumerated(value = EnumType.STRING)
+    private Difficulty difficulty;
+    // So this defines the relationship from Recipe class to ingredient, and with mappedby you are saying
     // that this Recipe will get stored on a property on the child or the set of ingredients on each
     // object of Ingredient is going to be a property called recipe.
     //The mappedBy property is what we use to tell Hibernate which variable we are using to represent
@@ -34,6 +35,15 @@ public class Recipe {
     // Cascade is set since Recipe is the owner
     private Notes notes;
 
+    @ManyToMany
+    @JoinTable(name="Recipe_Category",
+    joinColumns = @JoinColumn(name= "recipe_id"),
+    inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<Category> categories;
+
+
+
+
 
 
     public Long getId() {
@@ -43,8 +53,6 @@ public class Recipe {
     public void setId(Long id) {
         this.id = id;
     }
-
-
 
     public String getDescription() {
         return description;
@@ -118,5 +126,27 @@ public class Recipe {
         this.notes = notes;
     }
 
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public Set<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(Set<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
 
 }
